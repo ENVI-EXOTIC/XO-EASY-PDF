@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <!--
+  License
   ════════════════════════════════════════════════════
- Copyright © 2026 Exotic Food PCL. All rights reserved.
+Copyright © 2026 Exotic Food PCL. All rights reserved.
 For internal use by Exotic Food Thailand employees only.
   ════════════════════════════════════════════════════
 -->
@@ -217,6 +218,45 @@ h1,h2,h3,p{margin:0}
 .tile.sel .tile-check{background:var(--red);border-color:var(--red);box-shadow:0 0 10px rgba(224,16,16,.6)}
 .tile-check svg{width:12px;height:12px;fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;opacity:0}
 .tile.sel .tile-check svg{opacity:1}
+/* ── Phase 4: Compress UI ── */
+.ctool{display:flex;flex-direction:column;gap:.7rem;margin-top:1.2rem;padding-bottom:1rem;border-bottom:0.5px solid var(--bd)}
+.lvl-btn{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+.lvl-est{font-size:.6rem;font-weight:600;color:var(--mu);letter-spacing:.02em}
+.seg-btn.on .lvl-est{color:rgba(255,255,255,.75)}
+.seg.dim{opacity:.4;pointer-events:none}
+/* toggle switch (XODNA) */
+.xsw{position:relative;display:inline-flex;align-items:center;cursor:pointer}
+.xsw input{position:absolute;opacity:0;width:0;height:0}
+.xsw-track{width:40px;height:22px;border-radius:22px;background:var(--bg);border:0.5px solid var(--bd);transition:background .2s,border-color .2s;position:relative}
+.xsw-knob{position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--mu);transition:transform .2s,background .2s}
+.xsw input:checked + .xsw-track{background:rgba(224,16,16,.25);border-color:var(--red)}
+.xsw input:checked + .xsw-track .xsw-knob{transform:translateX(18px);background:var(--red);box-shadow:0 0 8px rgba(224,16,16,.6)}
+.xsw input:focus-visible + .xsw-track{box-shadow:0 0 0 2px rgba(224,16,16,.3)}
+.csum{font-size:.78rem;color:var(--tx)}
+.csum b{color:var(--w);font-family:var(--fd)}
+.csum .down{color:#4caf50;font-weight:700}
+/* result modal */
+.rmodal{position:fixed;inset:0;z-index:120;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.75);backdrop-filter:blur(4px)}
+.rmodal.hidden{display:none}
+.rmodal-box{width:min(420px,92vw);background:var(--bg2);border:0.5px solid var(--bd);border-radius:12px;padding:1.6rem 1.5rem;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.rmodal-ico{width:52px;height:52px;margin:0 auto .8rem;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(224,16,16,.12);border:0.5px solid rgba(224,16,16,.4)}
+.rmodal-ico svg{width:24px;height:24px;fill:none;stroke:var(--red-g);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.rmodal-title{font-family:var(--fd);font-weight:900;font-size:1.05rem;letter-spacing:.04em;margin-bottom:.45rem}
+.rmodal-msg{font-size:.82rem;color:var(--tx);line-height:1.55;margin-bottom:.9rem}
+.rmodal-msg b{color:var(--w)}
+.rmodal-badge{display:inline-block;background:rgba(76,175,80,.14);border:0.5px solid rgba(76,175,80,.5);color:#6fdc73;font-weight:800;font-size:.8rem;border-radius:var(--rf);padding:.2rem .7rem;margin-bottom:1rem}
+.rmodal-badge.warn{background:rgba(255,160,0,.12);border-color:rgba(255,160,0,.5);color:#ffb84d}
+.rbars{display:flex;flex-direction:column;gap:.45rem;margin-bottom:1.1rem}
+.rbar-row{display:flex;align-items:center;gap:.5rem;font-size:.66rem;color:var(--mu)}
+.rbar-row .lab{min-width:3.4rem;text-align:right}
+.rbar{flex:1;height:10px;background:var(--bg);border-radius:5px;overflow:hidden}
+.rbar > i{display:block;height:100%;border-radius:5px}
+.rbar .b-before{background:#555}
+.rbar .b-after{background:linear-gradient(90deg,var(--red-d),var(--red-g))}
+.rmodal-acts{display:flex;gap:.6rem;justify-content:center}
+.rmodal-acts .btn-p{min-width:110px;justify-content:center}
+.btn-ghost{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;border:0.5px solid var(--bd);background:transparent;color:var(--tx);border-radius:var(--r1);padding:.55rem 1rem;font-size:.78rem;font-weight:700;letter-spacing:.03em;transition:border-color .2s,color .2s}
+.btn-ghost:hover{border-color:var(--red);color:var(--w)}
 .btn-p{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:.45rem;background:var(--red);color:#fff;border-radius:var(--r1);padding:.8rem 1.5rem;font-weight:700;font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;transition:background .2s,box-shadow .2s}
 .btn-p:hover{background:#cc0e0e;box-shadow:0 4px 24px rgba(224,16,16,.45)}
 .btn-p:disabled{background:var(--bg3);color:var(--mu);box-shadow:none;cursor:not-allowed}
@@ -458,6 +498,43 @@ h1,h2,h3,p{margin:0}
             </button>
           </div>
 
+          <!-- COMPRESS TOOLBAR (Phase 4) -->
+          <div class="ctool hidden" id="ctool">
+            <div class="stool-row">
+              <span class="stool-lab">ระดับ</span>
+              <div class="seg" id="cmp-level">
+                <button class="seg-btn lvl-btn" type="button" data-l="high" onclick="setCmpLevel('high')">บีบสูงสุด<span class="lvl-est" data-est="high"></span></button>
+                <button class="seg-btn lvl-btn on" type="button" data-l="medium" onclick="setCmpLevel('medium')">ปานกลาง<span class="lvl-est" data-est="medium"></span></button>
+                <button class="seg-btn lvl-btn" type="button" data-l="low" onclick="setCmpLevel('low')">บีบน้อย<span class="lvl-est" data-est="low"></span></button>
+              </div>
+              <span class="srange-hint" id="cmp-level-hint"></span>
+            </div>
+            <div class="stool-row">
+              <span class="stool-lab">OCR</span>
+              <label class="xsw" title="เก็บชั้นข้อความ (OCR)">
+                <input type="checkbox" id="cmp-ocr" checked onchange="setCmpOcr(this.checked)"/>
+                <span class="xsw-track"><span class="xsw-knob"></span></span>
+              </label>
+              <span class="srange-hint" id="cmp-ocr-hint" style="flex:1"></span>
+              <button class="mini-add" type="button" onclick="document.getElementById('file-input').click()">
+                <svg fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-plus"></use></svg>เปลี่ยนไฟล์
+              </button>
+              <button class="mini-clear" type="button" onclick="resetCompress()">เริ่มใหม่</button>
+            </div>
+            <div class="stool-row">
+              <span class="stool-lab">ขนาด</span>
+              <span class="csum" id="cmp-sum">—</span>
+            </div>
+          </div>
+
+          <!-- ACTIONS (compress) -->
+          <div class="actions hidden" id="compress-actions">
+            <button class="btn-p" type="button" id="compress-btn" onclick="doCompress()">
+              <svg style="width:.95rem;height:.95rem;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-compress"></use></svg>
+              <span>ย่อและดาวน์โหลด PDF</span>
+            </button>
+          </div>
+
           <div class="ws-note">
             <svg style="width:.7rem;height:.7rem;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-shield"></use></svg>
             ประมวลผลบนเครื่องคุณ 100% — pdf-lib ฝังในไฟล์ ไม่ต่ออินเทอร์เน็ต
@@ -498,6 +575,23 @@ h1,h2,h3,p{margin:0}
     <div class="ldr-xo"><span>X</span>O</div>
     <div class="ldr-label" id="ldr-label">PROCESSING</div>
     <div class="ldr-prog"><div class="ldr-prog-bar" id="ldr-bar"></div></div>
+  </div>
+</div>
+
+<!-- RESULT MODAL (Phase 4) -->
+<div class="rmodal hidden" id="result-modal" role="dialog" aria-modal="true" aria-labelledby="rmodal-title">
+  <div class="rmodal-box">
+    <div class="rmodal-ico"><svg><use id="rmodal-ico-use" href="#i-check"></use></svg></div>
+    <div class="rmodal-title" id="rmodal-title">ย่อขนาดสำเร็จ!</div>
+    <div class="rmodal-msg" id="rmodal-msg"></div>
+    <div class="rmodal-badge" id="rmodal-badge"></div>
+    <div class="rbars">
+      <div class="rbar-row"><span class="lab">ก่อน</span><div class="rbar"><i class="b-before" id="rbar-before" style="width:100%"></i></div><span id="rbar-before-mb"></span></div>
+      <div class="rbar-row"><span class="lab">หลัง</span><div class="rbar"><i class="b-after" id="rbar-after" style="width:100%"></i></div><span id="rbar-after-mb"></span></div>
+    </div>
+    <div class="rmodal-acts" id="rmodal-acts">
+      <button class="btn-p" type="button" id="rmodal-ok" onclick="hideResultModal()">ปิด</button>
+    </div>
   </div>
 </div>
 
@@ -639,6 +733,14 @@ const state = {
     imgType: 'png',      // 'png' | 'jpg'
     selected: new Set(), // หน้าที่เลือก (0-based) — ใช้กับ extract
   },
+  // ── Phase 4: Compress ──
+  compress: {
+    unit: null,          // PDF เดียว {id,name,bytes:Uint8Array,pageCount}
+    level: 'medium',     // 'high' | 'medium' | 'low' (แรงบีบ — ใช้เมื่อปิด OCR)
+    keepOcr: true,       // เปิด = คงหน้าต้นฉบับ (ข้อความอยู่ครบ), ปิด = rasterize
+    est: null,           // cache ประมาณการ {high,medium,low,keep(bytes),keepBytes(Uint8Array)}
+    estFailed: false,    // true = ประมาณขนาดไม่สำเร็จ (ยังกดย่อได้ปกติ)
+  },
 };
 
 /* ---- DOM ---- */
@@ -657,6 +759,12 @@ const E = {
   splitRangeLab:document.getElementById('split-range-lab'), splitRangeHint:document.getElementById('split-range-hint'),
   wsTitle:document.getElementById('ws-title'), wsSub:document.getElementById('ws-sub'),
   dzHint:document.getElementById('dz-hint'),
+  // Phase 4: compress
+  ctool:document.getElementById('ctool'), cmpActions:document.getElementById('compress-actions'),
+  cmpBtn:document.getElementById('compress-btn'), cmpLevelSeg:document.getElementById('cmp-level'),
+  cmpLevelHint:document.getElementById('cmp-level-hint'), cmpOcr:document.getElementById('cmp-ocr'),
+  cmpOcrHint:document.getElementById('cmp-ocr-hint'), cmpSum:document.getElementById('cmp-sum'),
+  rmodal:document.getElementById('result-modal'),
 };
 
 /* ---- Navigation ---- */
@@ -667,9 +775,16 @@ function selectTool(key){
   E.wsIco.setAttribute('href','#'+t.icon);
   if(key==='merge'){ enterMerge(); }
   else if(key==='split'){ enterSplit(); }
+  else if(key==='compress'){ enterCompress(); }
   else { toast('เครื่องมือนี้กำลังพัฒนาใน Phase ถัดไป','i-info'); return; }
   E.ws.classList.remove('hidden');
   E.ws.scrollIntoView({behavior:'smooth',block:'start'});
+}
+/* ซ่อน chrome ของทุกเครื่องมือ (แต่ละ enterX ค่อยเปิดของตัวเอง) */
+function hideAllToolChrome(){
+  E.mtool.classList.add('hidden'); E.actions.classList.add('hidden');
+  E.stool.classList.add('hidden'); E.splitActions.classList.add('hidden');
+  E.ctool.classList.add('hidden'); E.cmpActions.classList.add('hidden');
 }
 
 /* เข้าโหมด Merge — คืนค่า UI ของ merge, ซ่อน chrome ของ split */
@@ -678,7 +793,7 @@ function enterMerge(){
   E.wsSub.textContent='เพิ่มไฟล์ จัดเรียง หมุน ลบ แล้วกดรวมเป็น PDF เดียว';
   E.fi.setAttribute('accept','.pdf,image/png,image/jpeg'); E.fi.setAttribute('multiple','');
   E.dzHint.textContent='รองรับ PDF · JPG · PNG';
-  E.stool.classList.add('hidden'); E.splitActions.classList.add('hidden');
+  hideAllToolChrome();
   render(); // merge chrome ขับด้วย state.units เหมือนเดิม
 }
 
@@ -688,9 +803,18 @@ function enterSplit(){
   E.wsSub.textContent='โหลด PDF 1 ไฟล์ แล้วเลือกหน้า/ช่วง เพื่อแยกเป็น PDF หรือรูปภาพ';
   E.fi.setAttribute('accept','.pdf'); E.fi.removeAttribute('multiple');
   E.dzHint.textContent='รองรับ PDF (1 ไฟล์)';
-  // ซ่อน chrome ของ merge
-  E.mtool.classList.add('hidden'); E.actions.classList.add('hidden');
+  hideAllToolChrome();
   renderSplitChrome();
+}
+
+/* เข้าโหมด Compress — รับ PDF 1 ไฟล์ */
+function enterCompress(){
+  E.wsTitle.textContent='ย่อขนาด PDF';
+  E.wsSub.textContent='โหลด PDF 1 ไฟล์ เลือกระดับการบีบ แล้วดาวน์โหลดไฟล์ที่เล็กลง';
+  E.fi.setAttribute('accept','.pdf'); E.fi.removeAttribute('multiple');
+  E.dzHint.textContent='รองรับ PDF (1 ไฟล์)';
+  hideAllToolChrome();
+  renderCompressChrome();
 }
 function backToTools(){ E.ws.classList.add('hidden'); E.tools.scrollIntoView({behavior:'smooth',block:'start'}); }
 
@@ -1055,7 +1179,8 @@ function _getPdfDoc(u){
    เรียกหลังลบไฟล์ / ลบหน้า / ล้างทั้งหมด เพื่อเคลียร์พื้นที่ให้งานถัดไป (ทำงานเงียบ ๆ) */
 function reclaimResources(){
   const live=new Set(state.units.map(u=>u.bytes)); // bytes ที่ยังใช้อยู่จริง
-  if(state.split.unit) live.add(state.split.unit.bytes); // กันไม่ให้ merge ไปทำลาย doc ของ split
+  if(state.split.unit) live.add(state.split.unit.bytes);       // กันไม่ให้ merge ไปทำลาย doc ของ split
+  if(state.compress.unit) live.add(state.compress.unit.bytes); // …และของ compress
   for(const bytes of [..._pdfDocCache.keys()]){
     if(!live.has(bytes)){
       const task=_pdfDocCache.get(bytes);
@@ -1322,16 +1447,18 @@ async function addSplitFile(fileList){
   }catch(err){ hideLoader(); toast('เกิดข้อผิดพลาด: '+(err.message||err),'i-warn'); E.fi.value=''; }
 }
 
-/* คืนทรัพยากร pdf.js ของไฟล์ split เดิม (ถ้าไม่มีที่อื่นใช้ bytes ก้อนนี้แล้ว) */
-function reclaimSplitDoc(oldUnit){
-  if(!oldUnit) return;
-  const stillSplit = state.split.unit && state.split.unit.bytes===oldUnit.bytes;
-  const inMerge = state.units.some(u=>u.bytes===oldUnit.bytes);
-  if(stillSplit||inMerge) return;
-  const t=_pdfDocCache.get(oldUnit.bytes);
-  if(t){ _pdfDocCache.delete(oldUnit.bytes); try{t.destroy();}catch(_){} }
-  _thumbCache.delete(oldUnit.bytes);
+/* คืนทรัพยากร pdf.js ของ bytes ที่ไม่มีเครื่องมือไหนใช้แล้ว (merge/split/compress) */
+function reclaimDocIfOrphan(bytes){
+  if(!bytes) return;
+  const live = state.units.some(u=>u.bytes===bytes)
+    || (state.split.unit && state.split.unit.bytes===bytes)
+    || (state.compress.unit && state.compress.unit.bytes===bytes);
+  if(live) return;
+  const t=_pdfDocCache.get(bytes);
+  if(t){ _pdfDocCache.delete(bytes); try{t.destroy();}catch(_){} }
+  _thumbCache.delete(bytes);
 }
+function reclaimSplitDoc(oldUnit){ if(oldUnit) reclaimDocIfOrphan(oldUnit.bytes); }
 
 /* ----- grid ของหน้า (reuse thumbnail) ----- */
 function renderSplitGrid(){
@@ -1490,22 +1617,28 @@ async function buildPdfFromIndices(srcDoc,indices){
   copied.forEach(p=>out.addPage(p));
   return await out.save();
 }
-async function renderPageToImage(unit,pageIndex,type){
+/* rasterize 1 หน้าเป็นภาพ — core กลางใช้ทั้ง Split (export รูป) และ Compress
+   คืน {bytes, wPt, hPt} — wPt/hPt = ขนาดหน้าเป็น point (viewport scale 1 ของ pdf.js = point) */
+async function rasterizePage(unit,pageIndex,opts){
+  const o=Object.assign({dpi:150,quality:0.9,maxPx:2200,mime:'image/jpeg'},opts||{});
   const doc=await _getPdfDoc(unit);
   const page=await doc.getPage(pageIndex+1);
   const base=page.getViewport({scale:1});
-  let scale=150/72;                 // ~150 DPI ให้คมพอ
-  const MAXPX=2200;                 // เพดานกันภาพยักษ์
-  if(base.width*scale>MAXPX) scale=MAXPX/base.width;
+  // เพดานกันภาพยักษ์ — คุมทั้งกว้างและสูง (หน้าทรงสูงผิดปกติจะไม่ทำ canvas สูงมหาศาล)
+  const scale=Math.min(o.dpi/72, o.maxPx/base.width, o.maxPx/base.height);
   const vp=page.getViewport({scale});
   const c=document.createElement('canvas');
   c.width=Math.max(1,Math.round(vp.width)); c.height=Math.max(1,Math.round(vp.height));
   const ctx=c.getContext('2d');
   ctx.fillStyle='#fff'; ctx.fillRect(0,0,c.width,c.height);
   await page.render({canvasContext:ctx,viewport:vp}).promise;
-  const mime=type==='jpg'?'image/jpeg':'image/png';
-  const blob=await new Promise(res=>c.toBlob(res,mime,type==='jpg'?0.9:undefined));
-  return new Uint8Array(await blob.arrayBuffer());
+  const blob=await new Promise(res=>c.toBlob(res,o.mime,o.mime==='image/png'?undefined:o.quality));
+  return { bytes:new Uint8Array(await blob.arrayBuffer()), wPt:base.width, hPt:base.height };
+}
+/* wrapper เดิมของ Split — behavior เดิมทุกอย่าง (150DPI, jpg q0.9 / png) */
+async function renderPageToImage(unit,pageIndex,type){
+  const r=await rasterizePage(unit,pageIndex,{mime:type==='jpg'?'image/jpeg':'image/png'});
+  return r.bytes;
 }
 function zipFiles(obj){
   if(typeof fflate==='undefined') throw new Error('zip library missing');
@@ -1599,9 +1732,255 @@ async function doSplit(){
   finally{ _splitBusy=false; if(splitBtn) splitBtn.disabled=false; }
 }
 
+/* ══════════════════════════════════════════════════
+   COMPRESS MODULE (Phase 4) — ย่อขนาด PDF
+   เปิด "เก็บ OCR"  = คงหน้าต้นฉบับ (ข้อความอยู่ครบ) + บีบโครงสร้าง → ลด ~5-20%
+   ปิด "เก็บ OCR"  = rasterize เป็น JPEG ตามระดับ → ลด 50-80% (ข้อความกลายเป็นภาพ)
+══════════════════════════════════════════════════ */
+const CMP_LEVELS={
+  high:  {dpi:96, q:0.5,  desc:'เล็กที่สุด — เหมาะส่งแชท/อีเมล อ่านบนจอชัด'},
+  medium:{dpi:130,q:0.65, desc:'สมดุลขนาดกับความคมชัด — ใช้ได้ทั่วไป (แนะนำ)'},
+  low:   {dpi:160,q:0.8,  desc:'คมชัดสูง — เหมาะเก็บถาวร/สั่งพิมพ์'},
+};
+const CMP_MAXPX=2600;
+
+function fmtMB(bytes){
+  if(bytes<1024*1024) return Math.max(1,Math.round(bytes/1024))+' KB';
+  return (bytes/1024/1024).toFixed(2)+' MB';
+}
+
+/* ----- chrome ----- */
+function renderCompressChrome(){
+  const has=!!state.compress.unit;
+  E.dz.style.display = has ? 'none' : '';
+  E.gridWrap.classList.toggle('hidden',!has);
+  E.ctool.classList.toggle('hidden',!has);
+  E.cmpActions.classList.toggle('hidden',!has);
+  if(has){ renderCompressGrid(); updateCmpUI(); }
+  else { if(typeof _previewIO!=='undefined'&&_previewIO)_previewIO.disconnect(); E.grid.innerHTML=''; }
+}
+function renderCompressGrid(){
+  if(typeof _previewIO!=='undefined'&&_previewIO) _previewIO.disconnect();
+  E.grid.innerHTML='';
+  const u=state.compress.unit; if(!u) return;
+  for(let pi=0; pi<u.pageCount; pi++){
+    const el=document.createElement('div');
+    el.className='tile tile-in';
+    el.innerHTML=`
+      <span class="tile-idx">${pi+1}</span>
+      <div class="tile-canvas-box"><div class="tile-loading"><div class="tile-spin"></div></div></div>
+      <div class="tile-foot"><span class="tile-name">หน้า ${pi+1}</span></div>`;
+    E.grid.appendChild(el);
+    renderPdfPreview(el,u,pi,0);
+  }
+}
+
+/* ----- โหลดไฟล์ ----- */
+async function addCompressFile(fileList){
+  const f=Array.from(fileList||[]).find(x=>/\.pdf$/i.test(x.name));
+  if(!f){ toast('โหมดย่อรับเฉพาะไฟล์ PDF','i-warn'); E.fi.value=''; return; }
+  showLoader('กำลังอ่านไฟล์');
+  try{
+    const buf=new Uint8Array(await f.arrayBuffer());
+    let count;
+    try{ const doc=await PDFDocument.load(buf,{updateMetadata:false}); count=doc.getPageCount(); }
+    catch(err){ hideLoader(); toast('อ่าน PDF ไม่ได้: '+f.name,'i-warn'); E.fi.value=''; return; }
+    const old=state.compress.unit;
+    state.compress.unit={id:++UID,name:f.name,bytes:buf,pageCount:count};
+    state.compress.est=null; state.compress.estFailed=false;
+    _estToken++;                              // ยกเลิก estimate ของไฟล์เก่า "ก่อน" destroy doc เก่า
+    if(old) reclaimDocIfOrphan(old.bytes);
+    setProgress(100); await sleep(150); hideLoader();
+    E.fi.value='';
+    renderCompressChrome();
+    toast(`โหลด ${count} หน้าแล้ว (${fmtMB(buf.length)})`,'i-check');
+    estimateCompress();                       // ประมาณขนาดอัตโนมัติ (เบื้องหลัง)
+  }catch(err){ hideLoader(); toast('เกิดข้อผิดพลาด: '+(err.message||err),'i-warn'); E.fi.value=''; }
+}
+
+/* ----- reset: ล้างไฟล์ปัจจุบัน กลับไปหน้า dropzone พร้อมเริ่มไฟล์ถัดไป ----- */
+function resetCompress(){
+  if(_compressBusy){ toast('กำลังย่อไฟล์อยู่ รอสักครู่','i-info'); return; }
+  const old=state.compress.unit;
+  state.compress.unit=null;
+  state.compress.est=null; state.compress.estFailed=false;
+  _estToken++;                              // ยกเลิก estimate ที่ค้างอยู่ (ถ้ามี)
+  if(old) reclaimDocIfOrphan(old.bytes);    // คืน pdf.js worker/แคชของไฟล์เดิม
+  hideResultModal();
+  E.fi.value='';
+  renderCompressChrome();                   // ไม่มี unit → โชว์ dropzone อีกครั้ง
+  toast('ล้างไฟล์แล้ว — พร้อมเริ่มไฟล์ถัดไป','i-check');
+}
+
+/* ----- toggles ----- */
+function setCmpLevel(l){
+  if(!CMP_LEVELS[l]) return;
+  state.compress.level=l;
+  document.querySelectorAll('#cmp-level .seg-btn').forEach(b=>b.classList.toggle('on',b.dataset.l===l));
+  updateCmpUI();
+}
+function setCmpOcr(on){
+  state.compress.keepOcr=!!on;
+  updateCmpUI();
+}
+function updateCmpUI(){
+  const s=state.compress;
+  // dim ปุ่มระดับเมื่อเก็บ OCR (ระดับไม่มีผลในโหมดคงต้นฉบับ)
+  E.cmpLevelSeg.classList.toggle('dim',s.keepOcr);
+  E.cmpLevelHint.textContent = s.keepOcr ? 'ระดับใช้กับโหมดไม่เก็บ OCR' : CMP_LEVELS[s.level].desc;
+  E.cmpOcrHint.textContent = s.keepOcr
+    ? 'เก็บชั้นข้อความ: ค้นหา/คัดลอกได้ · ลดขนาดได้จำกัด (~5-20%)'
+    : 'ไม่เก็บ: ลดได้มาก แต่ข้อความกลายเป็นภาพ (ค้นหาไม่ได้)';
+  // ป้ายประมาณการใต้ปุ่มระดับ
+  const est=s.est||{};
+  document.querySelectorAll('#cmp-level .lvl-est').forEach(sp=>{
+    const v=est[sp.dataset.est];
+    sp.textContent = v ? '~'+fmtMB(v) : (s.unit && !s.estFailed ? '…' : '');
+  });
+  // สรุป
+  if(!s.unit){ E.cmpSum.textContent='—'; return; }
+  const src=s.unit.bytes.length;
+  const target = s.keepOcr ? est.keep : est[s.level];
+  if(target){
+    const pct=Math.max(0,Math.round((1-target/src)*100));
+    E.cmpSum.innerHTML=`ต้นฉบับ <b>${fmtMB(src)}</b> → ประมาณ <b class="down">${fmtMB(target)} (−${pct}%)</b>`;
+  } else if(s.estFailed){
+    E.cmpSum.innerHTML=`ต้นฉบับ <b>${fmtMB(src)}</b> → <span style="color:var(--mu)">ประมาณขนาดไม่ได้ (ยังกดย่อได้ปกติ)</span>`;
+  } else {
+    E.cmpSum.innerHTML=`ต้นฉบับ <b>${fmtMB(src)}</b> → <span style="color:var(--mu)">กำลังประมาณขนาด…</span>`;
+  }
+}
+
+/* ----- estimate (sample จริง ไม่มโน) ----- */
+let _estToken=0;
+async function estimateCompress(){
+  const s=state.compress, u=s.unit; if(!u) return;
+  const my=++_estToken;
+  s.estFailed=false;
+  const est={};
+  try{
+    // โหมดเก็บ OCR: resave จริง = ตัวเลขแม่นเป๊ะ + cache ผลไว้ใช้ตอนกดย่อเลย
+    const keepBytes=await compressKeepText(u.bytes);
+    if(my!==_estToken) return;                       // ไฟล์ถูกเปลี่ยนระหว่างทาง → ทิ้ง
+    est.keep=keepBytes.length; est.keepBytes=keepBytes;
+    s.est=est; updateCmpUI();
+    // 3 ระดับ: sample ≤3 หน้า (แรก/กลาง/ท้าย) render จริงต่อระดับ แล้ว extrapolate
+    const picks=[...new Set([0,Math.floor(u.pageCount/2),u.pageCount-1])];
+    for(const lv of ['high','medium','low']){
+      const L=CMP_LEVELS[lv];
+      let sum=0;
+      for(const pi of picks){
+        const r=await rasterizePage(u,pi,{dpi:L.dpi,quality:L.q,maxPx:CMP_MAXPX});
+        if(my!==_estToken) return;
+        sum+=r.bytes.length;
+      }
+      est[lv]=Math.round((sum/picks.length)*u.pageCount*1.02+50*1024);
+      s.est=est; updateCmpUI();                      // อัปเดตทีละระดับ ให้เห็นผลไว
+    }
+  }catch(err){ console.warn('estimate failed',err); if(my===_estToken){ s.estFailed=true; updateCmpUI(); } }
+}
+
+/* ----- engines ----- */
+/* คงหน้าต้นฉบับ: copy ทุกหน้าลง doc ใหม่ (metadata เดิมไม่ติดมา) + object streams */
+async function compressKeepText(bytes){
+  const src=await PDFDocument.load(bytes,{updateMetadata:false});
+  const out=await PDFDocument.create();
+  const copied=await out.copyPages(src,src.getPageIndices());
+  copied.forEach(p=>out.addPage(p));
+  out.setTitle(''); out.setAuthor(''); out.setSubject(''); out.setKeywords([]);
+  out.setProducer(''); out.setCreator('');
+  return await out.save({useObjectStreams:true});
+}
+/* rasterize ทุกหน้า → JPEG ตามระดับ → PDF ใหม่ขนาดหน้าเท่าเดิม */
+async function compressRaster(unit,level,onProgress){
+  const L=CMP_LEVELS[level]||CMP_LEVELS.medium;
+  const out=await PDFDocument.create();
+  for(let pi=0;pi<unit.pageCount;pi++){
+    const r=await rasterizePage(unit,pi,{dpi:L.dpi,quality:L.q,maxPx:CMP_MAXPX});
+    const img=await out.embedJpg(r.bytes);
+    const pg=out.addPage([r.wPt,r.hPt]);
+    pg.drawImage(img,{x:0,y:0,width:r.wPt,height:r.hPt});
+    if(onProgress) onProgress((pi+1)/unit.pageCount);
+  }
+  return await out.save({useObjectStreams:true});
+}
+
+/* ----- result popup (สเปคข้อ 4) ----- */
+function showResultModal(o){
+  const ok=o.outSize<o.srcSize;
+  document.getElementById('rmodal-title').textContent = ok ? 'ย่อขนาดสำเร็จ!' : 'ไฟล์ไม่เล็กลง';
+  document.getElementById('rmodal-ico-use').setAttribute('href', ok?'#i-check':'#i-warn');
+  document.getElementById('rmodal-msg').innerHTML = ok
+    ? `คุณลดขนาดไฟล์ลงจาก <b>${fmtMB(o.srcSize)}</b> เหลือ <b>${fmtMB(o.outSize)}</b>`
+    : `ไฟล์นี้บีบแล้วได้ <b>${fmtMB(o.outSize)}</b> ซึ่งไม่เล็กกว่าต้นฉบับ <b>${fmtMB(o.srcSize)}</b><br>(มักเกิดกับ PDF ข้อความล้วน — ลองเปิด "เก็บ OCR" แทน)`;
+  const badge=document.getElementById('rmodal-badge');
+  const pct=Math.round((1-o.outSize/o.srcSize)*100);
+  badge.textContent = ok ? (pct>0?`เล็กลง ${pct}%`:'เล็กลงเล็กน้อย') : `+${Math.abs(pct)}%`;
+  badge.classList.toggle('warn',!ok);
+  document.getElementById('rbar-before').style.width='100%';
+  document.getElementById('rbar-after').style.width=Math.max(2,Math.min(100,Math.round(o.outSize/o.srcSize*100)))+'%';
+  document.getElementById('rbar-before-mb').textContent=fmtMB(o.srcSize);
+  document.getElementById('rbar-after-mb').textContent=fmtMB(o.outSize);
+  const acts=document.getElementById('rmodal-acts');
+  acts.innerHTML='';
+  if(ok){
+    const nx=document.createElement('button'); nx.className='btn-p'; nx.type='button'; nx.textContent='ย่อไฟล์ถัดไป';
+    nx.addEventListener('click',resetCompress);       // resetCompress ปิด modal ให้เองด้วย
+    const b=document.createElement('button'); b.className='btn-ghost'; b.type='button'; b.textContent='ปิด';
+    b.addEventListener('click',hideResultModal);
+    acts.appendChild(nx); acts.appendChild(b);
+  }else{
+    const dl=document.createElement('button'); dl.className='btn-p'; dl.type='button'; dl.textContent='ดาวน์โหลดต่อ';
+    dl.addEventListener('click',()=>{ o.onDownload&&o.onDownload(); hideResultModal(); });
+    const cc=document.createElement('button'); cc.className='btn-ghost'; cc.type='button'; cc.textContent='ยกเลิก';
+    cc.addEventListener('click',hideResultModal);
+    acts.appendChild(dl); acts.appendChild(cc);
+  }
+  E.rmodal.classList.remove('hidden');
+}
+function hideResultModal(){ E.rmodal.classList.add('hidden'); }
+
+/* ----- orchestrator ----- */
+let _compressBusy=false;
+async function doCompress(){
+  if(_compressBusy) return;                  // กันกดซ้ำ
+  const s=state.compress, u=s.unit;
+  if(!u){ toast('ยังไม่ได้โหลดไฟล์','i-warn'); return; }
+  _compressBusy=true; E.cmpBtn.disabled=true;
+  showLoader('กำลังย่อขนาด');
+  try{
+    let outBytes;
+    if(s.keepOcr){
+      // ใช้ผลที่ estimate ทำไว้แล้วถ้ามี (ตัวเดียวกันเป๊ะ) — เสร็จทันที
+      outBytes=(s.est&&s.est.keepBytes)||await compressKeepText(u.bytes);
+      setProgress(95);
+    }else{
+      outBytes=await compressRaster(u,s.level,f=>setProgress(f*95));
+    }
+    const srcSize=u.bytes.length, outSize=outBytes.length;
+    const name=`XO_compressed_${stamp()}.pdf`;
+    setProgress(100); await sleep(150); hideLoader();
+    if(outSize<srcSize){
+      download(outBytes,name);
+      showResultModal({srcSize,outSize});
+    }else{
+      // ไฟล์ไม่เล็กลง → ไม่ auto-download ให้ผู้ใช้เลือก
+      showResultModal({srcSize,outSize,onDownload:()=>download(outBytes,name)});
+    }
+  }catch(err){
+    hideLoader(); console.error(err);
+    toast('ย่อขนาดไม่สำเร็จ: '+(err.message||err),'i-warn');
+  }
+  finally{ _compressBusy=false; E.cmpBtn.disabled=false; }
+}
+
 /* ---- Dropzone + input wiring ---- */
 /* ตัวกระจายไฟล์ตามเครื่องมือที่เปิดอยู่ — merge→addFiles, split→addSplitFile */
-function onFilesPicked(files){ if(state.tool==='split') addSplitFile(files); else addFiles(files); }
+function onFilesPicked(files){
+  if(state.tool==='split') addSplitFile(files);
+  else if(state.tool==='compress') addCompressFile(files);
+  else addFiles(files);
+}
 E.dz.addEventListener('click',()=>E.fi.click());
 E.dz.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();E.fi.click();}});
 E.fi.addEventListener('change',()=>onFilesPicked(E.fi.files));
